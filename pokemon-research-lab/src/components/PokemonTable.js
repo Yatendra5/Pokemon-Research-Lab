@@ -5,20 +5,30 @@ import { useSelector } from 'react-redux';
 
 const PokemonTable = () => {
   const pokemons = useSelector((state) => state.pokemon.pokemons);
-  console.log(pokemons[0]); // Log the first Pokémon object
+  console.log(pokemons); // Log the first Pokémon object
 
   const columns = React.useMemo(() => [
       {
+     
+       
      accessor: 'types',
      header: 'Type(s)',
      cell: ({ getValue }) => {
        const types = getValue();
        console.log(types); // Log the types value
-       return Array.isArray(types) 
-         ? types.map(typeObj => typeObj.type.name).join(' / ') 
-         : 'N/A'; // Handle undefined or non-array types
+       
+       // Check if types is an array and map to get the type names
+       if (Array.isArray(types)) {
+         return types.map(typeObj => typeObj.type.name).join(' / ');
+       } else if (types && types.type) {
+         // Handle case where types is a single object
+         return types.type.name;
+       } else {
+         return 'N/A'; // Handle undefined or non-array types
+       }
      },
    }
+   
    ,
     { accessor: 'hp', header: 'HP' },
     { accessor: 'attack', header: 'Attack' },
