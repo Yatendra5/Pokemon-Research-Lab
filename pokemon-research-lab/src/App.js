@@ -1,13 +1,15 @@
-// src/App.js
-import React from 'react';
-import Home from './pages'; // Adjust the import based on your folder structure
+import React, { useMemo } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import MainPanel from "./components/MainPanel";
 
-const App = () => {
+export default function App() {
+  const queryClient = useMemo(() => new QueryClient(), []);
   return (
-    <div>
-      <Home />
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <div className="container-fluid p-3">
+        <h1 className="mb-3">Pokemon Research Lab</h1>
+        <MainPanel />
+      </div>
+    </QueryClientProvider>
   );
-};
-
-export default App;
+}
